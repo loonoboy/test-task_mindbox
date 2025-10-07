@@ -8,6 +8,7 @@ metadata:
   name: mindbox-app
   labels:
     app: mindbox-app
+    version: 1.27.5
 spec:
   replicas: 4
   # Я задал 4 реплики, так как из условия сказано, что именно 4 пода справляются с пиковой нагрузкой
@@ -22,7 +23,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: myregistry/mindbox-app:latest
+          image: myregistry/mindbox-app:1.27.5
           # Я оставил абстрактный образ, так как в условии он не был указан
           ports:
             - containerPort: 8080
@@ -41,14 +42,14 @@ spec:
               path: /healthz
               port: 8080
             initialDelaySeconds: 10
-            periodSeconds: 5
+            periodSeconds: 10
           # Readiness probe: я поставил initialDelaySeconds=10, так как приложение стартует 5-10 секунд
           # Это поможет не отправлять трафик раньше времени
           livenessProbe:
             httpGet:
               path: /healthz
               port: 8080
-            initialDelaySeconds: 30
+            initialDelaySeconds: 10
             periodSeconds: 10
           # Liveness probe нужна, чтобы Kubernetes мог перезапустить под, если он завис
       affinity:
