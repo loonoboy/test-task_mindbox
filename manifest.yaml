@@ -57,14 +57,16 @@ spec:
           # Liveness probe нужна, чтобы Kubernetes мог перезапустить под, если он завис
       affinity:
         podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                      - mindbox-app
-              topologyKey: "topology.kubernetes.io/zone"
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - mindbox-app
+                topologyKey: topology.kubernetes.io/zone
           # Я узнал, что с помощью podAntiAffinity можно распределить поды по зонам
           # Это нужно для отказоустойчивости: если одна зона выйдет из строя, поды останутся в других
 
