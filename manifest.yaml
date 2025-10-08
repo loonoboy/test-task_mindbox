@@ -75,13 +75,20 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mindbox-app-service
+  namespace: work
+  labeles:
+    app.kubernetes.io/name: mindbox-app
+    app.kubernetes.io/version: 1.27.5
 spec:
   type: ClusterIP
   selector:
-    app: mindbox-app
+    app.kubernetes.io/name: mindbox-app
+    app.kubernetes.io/version: 1.27.5
   ports:
-    - port: 80
+    - protocol: TCP
+      port: 80
       targetPort: 8080
+      name: http
   # Я сделал сервис типа ClusterIP(по дефолту), так как про внешний доступ в задании ничего не сказано
   # Но для доступа извне можно было бы использовать LoadBalancer
 
