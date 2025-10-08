@@ -6,20 +6,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mindbox-app
+  namespace: work
   labels:
-    app: mindbox-app
-    version: 1.27.5
+    app: &app mindbox-app
+    version: &version 1.27.5
 spec:
   replicas: 4
   # Я задал 4 реплики, так как из условия сказано, что именно 4 пода справляются с пиковой нагрузкой
   # Но ниже я настрою autoscaling, чтобы ночью подов было меньше, а днем — больше
   selector:
     matchLabels:
-      app: mindbox-app
+      app: *app
+      version: *version
   template:
     metadata:
       labels:
-        app: mindbox-app
+        app: *app
+        version: *version
     spec:
       containers:
         - name: app
