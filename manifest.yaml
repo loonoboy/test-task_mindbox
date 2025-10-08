@@ -97,6 +97,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: mindbox-app-hpa
+  namespace: work
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -120,6 +121,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: mindbox-app-pdb
+  namespace: work
 spec:
   minAvailable: 2
   selector:
